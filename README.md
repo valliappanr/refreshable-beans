@@ -44,14 +44,41 @@ Usage:
       This project uses Sprin MVC for exposing the rest endpoint to register / replace the groovy script at runtime.
       It provides the approach taken to create / change the algorithm at runtime. 
       
+      This project is tested with a sample groovy script Fibonacci.groovy - actual groovy script 
+      registered at runtime. (Fibonacci-forloop.groovy / Fibonacci-recursive.groovy are used to replace 
+      Fibonacci.groovy at runtime).
+      
       It assumes that The groovy files are present at /tmp/scripts folder on the server and can be used to register at
       runtime.
       
       Below are the rest endpoints defined in the project,
       
-      1. 
+      1. /dynamic-bean/status - provides the status of the system with list of available options
+      2. /dynamic-bean/registry/{beanName} - registering the dynamic bean (beanName - name of the groovy file under
+            /tmp/scripts) folder and registers a camel endpoint for the dynamic bean.
+      3. /dynamic-bean/replace/{oldBean}/{newBean} - replace the oldBean script under /tmp/scripts  with newBean script
+        under /tmp/scripts
+      4. /send-message/{sequence} - Sends a message, which is routed to the camel endpoint, which inturn processed by
+      the registered bean, sequence - to generate the fibonacci number for that sequence.
       
       
-      
-      
-      
+Testing:
+--------
+
+        1. Place two files Fibonacci-recursive.groovy, Fibonacci-forloop.groovy under /tmp/scripts. Copy 
+            Fibonacci-forloop.groovy as Fibonacci.groovy under /tmp/scripts
+        2. Using Restclient send a request to register /dynamic-bean/registry/Fibonacci, which registers the 
+            for loop version of Fibonacci implementation and registers a camel endpoint for the bean (using activemq
+            and the queue name is testqueue).
+        3. Using Restclient send a request to  /dynamic-bean/send-message/10 - will provide the output inthe 
+            server log as 
+                        
+                        Using For loop
+                        55
+        4. Using Restclient send a request to  /dynamic-bean/replace/Fibonacci/Fibonacci-recursive, will replace 
+        the Fibonacci.groovy under /tmp/scripts to Fibonacci-recursive.groovy
+        5. Using Restclient send a request to  /dynamic-bean/send-message/10 - will provide the output inthe 
+            server log as 
+                        
+                        Using Recursive
+                        55
