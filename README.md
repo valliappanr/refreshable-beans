@@ -65,7 +65,7 @@ Usage:
 Testing:
 --------
 
-        1. Place two files Fibonacci-recursive.groovy, Fibonacci-forloop.groovy under /tmp/scripts. Copy 
+        1. Place two files (from src/test/resources) Fibonacci-recursive.groovy, Fibonacci-forloop.groovy under /tmp/scripts. Copy 
             Fibonacci-forloop.groovy as Fibonacci.groovy under /tmp/scripts
         2. Using Restclient send a request to register /dynamic-bean/registry/Fibonacci, which registers the 
             for loop version of Fibonacci implementation and registers a camel endpoint for the bean (using activemq
