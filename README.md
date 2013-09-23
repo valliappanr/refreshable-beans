@@ -1,4 +1,4 @@
-refreshable-beans
+Refreshable-beans
 =================
 
 Overview:
@@ -26,7 +26,7 @@ Overview:
 
 
 Usage Scenarios
-===============
+---------------
 
       1. Dynamic Rules Engine: Simple Rules engine could be created for example with rules engine running from startup and
       specify the rules at runtime (store the rules in the database) and the engine uses to process it. Using this
@@ -39,10 +39,19 @@ Usage Scenarios
       
 
 Usage:
-======
+------
 
       This project uses Sprin MVC for exposing the rest endpoint to register / replace the groovy script at runtime.
-      It provides the approach taken to create / change the algorithm at runtime.
+      It provides the approach taken to create / change the algorithm at runtime. 
+      
+      It assumes that The groovy files are present at /tmp/scripts folder on the server and can be used to register at
+      runtime.
+      
+      Below are the rest endpoints defined in the project,
+      
+      1. 
+      
+      
       
       
       
