@@ -1,12 +1,12 @@
 package refreshable.dynamicbean.resource;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
 
+import org.apache.qpid.util.FileUtils;
 import org.codehaus.groovy.control.CompilationFailedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessagePostProcessor;
@@ -26,6 +26,7 @@ import javax.jms.Message;
 @RequestMapping(value = "/dynamic-bean")
 public class DynamicBeanController {
 	
+	private static final Logger LOG = LoggerFactory.getLogger(DynamicBeanController.class);
 	private JmsTemplate jmsTemplate;
 	
 	private DynamicBeanRegistry beanRegistry;
@@ -54,7 +55,7 @@ public class DynamicBeanController {
 	@RequestMapping(value = "/status", method = RequestMethod.GET)
 	@ResponseBody
     public String registerBean() {
-    	return "Available Services : registry, sendMessage, replace";
+    	return "Available Services : registry, send-message, replace";
     }
 	
 	@RequestMapping(value = "/registry/{name}", method = RequestMethod.POST)
@@ -65,9 +66,13 @@ public class DynamicBeanController {
 					DEFAULT_SCRIPT_PATH + name + ".groovy",
 					"5000");
 		} catch (CompilationFailedException e) {
+			LOG.error("Script compiler exception");
 		} catch (IOException e) {
+			LOG.error(String.format("IO Exception : %s", e.getMessage()));
 		} catch (ClassNotFoundException e) {
+			LOG.error(String.format("ClassNotFoundException : %s", e.getMessage()));
 		} catch (Exception e) {
+			LOG.error(String.format("Exception : %s", e.getMessage()));
 		}
 		return "registered Successfully";
     }
@@ -90,27 +95,8 @@ public class DynamicBeanController {
     		@PathVariable("newBean") String newBean) throws IOException {
 		File newFile = new File(DEFAULT_SCRIPT_PATH + newBean + ".groovy");
 		File oldFile = new File(DEFAULT_SCRIPT_PATH + oldBean + ".groovy");
-		FileInputStream inStream = null;
-		FileChannel inChannel = null;
-		FileOutputStream outStream = null;
-		FileChannel  outChannel = null;
 		if (newFile.exists()) {
-			try {
-			inStream = new FileInputStream(newFile);
-	        inChannel = inStream.getChannel();
-	        outStream = new  FileOutputStream(oldFile);        
-	        outChannel = outStream.getChannel();
-	        long bytesTransferred = 0;
-	        while(bytesTransferred < inChannel.size()){
-	          bytesTransferred += inChannel.transferTo(0, inChannel.size(), outChannel);
-	        }
-	      }
-	      finally {
-	        if (inChannel != null) inChannel.close();
-	        if (outChannel != null) outChannel.close();
-	        if (inStream != null) inStream.close();
-	        if (outStream != null) outStream.close();
-	      }
+			FileUtils.copy(newFile, oldFile);
 		}
 		return "replaced Successfully";
     }
