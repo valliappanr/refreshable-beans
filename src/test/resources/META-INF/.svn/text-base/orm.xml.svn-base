@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_0.xsd" version="2.0">
+	<entity class="com.waitrose.wbp.bps.dmgr.branch.entity.Branch" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPBRN0" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.branch.entity.BranchLayoutGroup" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPBRLG" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.branch.entity.BranchLine" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPBRLN" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.branch.entity.BranchLocation" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPBRLC" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.branch.entity.BranchZone" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPBRZN" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.branch.entity.LocationType" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPLCTP" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.branch.entity.Zone" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPZONE" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.customer.entity.Customer" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPCUST" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.line.entity.Barcode" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPBRCD" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.line.entity.Country" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPCTRY" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.line.entity.ExceptionType" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPEXLR" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.line.entity.LayoutGroup" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPLG00" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.line.entity.Line" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPLINE" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.pickedorder.entity.Crate" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPCRTE" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.pickedorder.entity.PickedItem" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPPKLN" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.pickedorder.entity.PickList" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="10" sequence-name="TWBP.SEQWBPPLST" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.pickedorder.entity.OrderCrate" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="10" sequence-name="TWBP.SEQWBPORCR" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.pickedorder.entity.PickListLine" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="100" sequence-name="TWBP.SEQWBPPLNI" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.picksequence.entity.PickSequenceItem" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPPSQI" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.picksequence.entity.PickSequenceZone" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPPSQZ" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.reference.entity.Configuration" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPGCFG" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.reference.entity.StatusCode" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPSTCD" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.submittedorder.entity.Order" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPORDR" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.submittedorder.entity.OrderLine" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPORLN" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.submittedorder.entity.OrderMessage" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPOMSG" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.submittedorder.entity.Route" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPRTE0" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.usermanagement.entity.Permission" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPPERM" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.usermanagement.entity.Role" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPROLE" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.usermanagement.entity.User" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPUSER" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.usermanagement.entity.UserStatus" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPUSTA" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.pickedorder.entity.ExceptionLine" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPEXLN" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.pickedorder.entity.ExceptionPickList" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPEXPL" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.branch.entity.BranchConfig" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPBCFG" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.submittedorder.entity.Slot" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPSLOT" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.branch.entity.ZoneConfig" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPZCFG" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.reference.entity.ConsolidationConfiguration" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPCONS" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.reference.entity.Mutex" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPMUTX" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.event.entity.EventType" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPETYP" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.event.entity.BranchEvent" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPBENT" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.event.entity.UserEvent" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPUENT" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.event.entity.PickingEvent" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPPENT" />
+	</entity>
+
+	<entity class="com.waitrose.wbp.bps.dmgr.event.entity.SystemEvent" metadata-complete="false">
+		<sequence-generator name="sequence" allocation-size="1" sequence-name="TWBP.SEQWBPSENT" />
+	</entity>
+
+</entity-mappings>

@@ -1,0 +1,12 @@
+#Updated at Mon Nov 08 10:12:55 GMT 2010
+#Mon Nov 08 10:12:55 GMT 2010
+database.url.base=jdbc\:db2\://localhost\:50000/BPS
+layer=T
+wtr_wbp_consolidation.bsi=WBP
+wtr_wbp_picklist.bsi=WBP
+database.schema=${layer}${wtr_wbp_picklist.bsi}
+database.url=${database.url.base}:currentSchema=${database.schema};
+database.username=Harshad
+database.password=141298jim
+database.driverClassName=com.ibm.db2.jcc.DB2Driver
+dialect=org.hibernate.dialect.DB2Dialect

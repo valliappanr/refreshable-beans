@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop 
+                        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                        http://www.springframework.org/schema/beans 
+                        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd   
+                        http://www.springframework.org/schema/context 
+                        http://www.springframework.org/schema/context/spring-context-3.0.xsd   
+                        http://www.springframework.org/schema/jee 
+                        http://www.springframework.org/schema/jee/spring-jee-3.0.xsd   
+                        http://www.springframework.org/schema/tx 
+                        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+						http://www.springframework.org/schema/data/jpa
+    					http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+	<!-- This will automatically locate any and all property files you have within your classpath, provided they fall under the META-INF/spring directory. 
+		The located property files are parsed and their values can then be used within application context files in the form of ${propertyKey}. -->
+	<context:property-placeholder system-properties-mode="OVERRIDE" location="classpath*:META-INF/spring/*.properties" ignore-resource-not-found="true" />
+		
+	<!-- Turn on AspectJ @Configurable support. As a result, any time you instantiate an object, Spring will attempt to perform dependency injection on that 
+		object. This occurs for instantiation via the "new" keyword, as well as via reflection. This is possible because AspectJ is used to "weave" Roo-based applications 
+		at compile time. In effect this feature allows dependency injection of any object at all in your system, which is a very useful feature (without @Configurable 
+		you'd only be able to dependency inject objects acquired from Spring or subsequently presented to a specific Spring dependency injection method). Roo applications 
+		use this useful feature in a number of areas, such as @PersistenceContext injection into entities. -->
+	<context:spring-configured />
+
+	<!-- This declaration will cause Spring to locate every @Component, @Repository and @Service in your application. In practical terms this allows you to 
+		write a POJO and then simply annotate the new POJO as an @Service and Spring will automatically detect, instantiate and dependency inject your service 
+		at startup time. Importantly, you can then also have your new service injected into any other class that requires it simply by declaring a field for your 
+		service inside the relying class and Spring will inject it. Note that two exclude filters are declared. refer to web.xml for more details about the web 
+		tier application context setup services. Furthermore, this turns on @Autowired, @PostConstruct etc support. These annotations allow you to use common Spring 
+		and Java Enterprise Edition annotations in your classes without needing to do any special configuration. The most commonly used annotation is @Autowired, 
+		which instructs Spring to dependency inject an object into your class. -->
+
+	<bean class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" id="dataSource">
+		<property name="driverClassName" value="${database.driverClassName}" />
+		<property name="url" value="${database.url}" />
+		<property name="username" value="${database.username}" />
+		<property name="password" value="${database.password}" />
+	</bean>
+
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${dialect}</prop> 
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="testPersistenceUnit" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.dialect">${dialect}</prop>
+				<prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+				<prop key="hibernate.current_session_context_class">jta</prop>
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+				<prop key="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory</prop>
+				<prop key="net.sf.ehcache.configurationResourceName">ehcache.xml</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- 
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="cache.query_cache_factory">hibernatingrhinos.hibernate.profiler.cache.ProfilerQueryCacheFactory</prop>
+				<prop key="hibernate.jdbc.batch_size">100</prop>
+				<prop key="hibernate.order_inserts">true</prop>
+				<prop key="hibernate.order_updates">true</prop>
+				<prop key="hibernate.order_updates">true</prop>
+			</props>
+		</property>
+		<hprof:profiler />
+	</bean>
+
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="testPersistenceUnit" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.dialect">${dialect}</prop>
+				<prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+				<prop key="hibernate.current_session_context_class">jta</prop>
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+				<prop key="hibernate.jdbc.batch_size">100</prop>
+				<prop key="hibernate.jdbc.batch_versioned_data">true</prop>				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+				<prop key="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory</prop>
+				<prop key="net.sf.ehcache.configurationResourceName">ehcache.xml</prop>
+			</props>
+		</property>
+	</bean>
+-->
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
+	<!-- Database LOB Handling -->
+	<bean id="defaultLobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler" />
+
+	<!-- Read in DAOs from the JPA package -->
+	<context:component-scan base-package="com.waitrose" />
+
+	<jpa:repositories base-package="com.waitrose.wbp.bps.dmgr" entity-manager-factory-ref="entityManagerFactory" />
+
+	<!-- Transaction Config -->
+	<!-- <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" -->
+	<!-- p:entityManagerFactory-ref="entityManagerFactory" /> -->
+
+	<bean name="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<bean id="pooledJmsConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
+		<constructor-arg index="0" value="vm://localhost" />
+	</bean>
+
+	<bean id="jmsConnectionFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="jms/qcf/wtr_wbp_consolidation" />
+		<property name="jndiTemplate">
+			<bean class="org.springframework.mock.jndi.ExpectedLookupTemplate">
+				<constructor-arg index="0" value="jms/qcf/wtr_wbp_consolidation" />
+				<constructor-arg index="1" ref="pooledJmsConnectionFactory" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="userCredentialsConnectionFactory" class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
+		<property name="targetConnectionFactory">
+			<ref bean="jmsConnectionFactory" />
+		</property>
+		<property name="username" value=" " />
+		<property name="password" value=" " />
+	</bean>
+
+	<bean id="jmsJndiDestResolver" class="org.springframework.jms.support.destination.JndiDestinationResolver" />
+
+	<bean id="jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory">
+			<ref bean="userCredentialsConnectionFactory" />
+		</property>
+		<property name="destinationResolver">
+			<ref bean="jmsJndiDestResolver" />
+		</property>
+	</bean>
+
+	<bean id="jmsSender" class="com.waitrose.bps.jms.ofintegration.JmsTemplateProxy">
+		<property name="jmsTemplate">
+			<ref bean="jmsQueueTemplate" />
+		</property>
+	</bean>
+
+	<!-- Queues -->
+	<!-- Branch PC sends Start consolidation messages to Consolidation App -->
+	<bean id="consDestination" class="java.lang.String">
+		<constructor-arg type="String" value="jms/queue/MQQ_WBP_PICKLIST_TO_CONSOLIDATION" />
+	</bean>
+
+	<!-- Order Fullilment Order Mesage Consumer -->
+	<bean id="ofDestination" class="java.lang.String">
+		<constructor-arg type="String" value="jms/queue/MQQ_WBP_OF_TO_BPS" />
+	</bean>
+
+	<!-- ASSORTMENT Product Consumer -->
+	<bean id="destination2" class="java.lang.String">
+		<constructor-arg type="String" value="jms/queue/MQQ_WBP_ASSORTMENT_TO_BPS" />
+	</bean>
+
+	<!-- Branch PC sends release for payment message to OF -->
+	<bean id="bpsToOfDestination" class="java.lang.String">
+		<constructor-arg type="String" value="jms/queue/MQQ_WBP_BPS_TO_OF" />
+	</bean>
+	
+	<!-- Error notification mechanism is local to BPS -->
+	<bean id="bpsErrorNotificationDestination" class="java.lang.String">
+		<constructor-arg type="String" value="jms/queue/MQQ_WBP_ERROR_NOTIFICATION" />
+	</bean>		
+
+	<bean id="startAssortmentService" class="com.waitrose.wbp.bps.service.assortment.internal.StartAssortmentService" />
+	<bean id="layoutGroupChangeService" class="com.waitrose.wbp.bps.service.assortment.internal.LayoutGroupChangeService" />
+	<bean id="lineChangeService" class="com.waitrose.wbp.bps.service.assortment.internal.LineChangeService" />
+	<bean id="lineBranchChangeService" class="com.waitrose.wbp.bps.service.assortment.internal.LineBranchChangeService" />
+	<bean id="lineLocalPriceChangeService" class="com.waitrose.wbp.bps.service.assortment.internal.LineLocalPriceChangeService" />
+	<bean id="barcodeChangeService" class="com.waitrose.wbp.bps.service.assortment.internal.BarcodeChangeService" />
+	<bean id="endAssortmentService" class="com.waitrose.wbp.bps.service.assortment.internal.EndAssortmentService" />
+	
+	<bean id="productChangeServiceFactory" class="com.waitrose.wbp.bps.service.assortment.internal.ProductChangeServiceFactory"
+		p:startAssortmentService-ref="startAssortmentService"
+		p:layoutGroupChangeService-ref="layoutGroupChangeService"
+		p:lineChangeService-ref="lineChangeService"
+		p:lineBranchChangeService-ref="lineBranchChangeService"
+		p:lineLocalPriceChangeService-ref="lineLocalPriceChangeService"
+		p:barcodeChangeService-ref="barcodeChangeService"
+		p:endAssortmentService-ref="endAssortmentService" />
+
+	<!-- Schema for the outgoing unpicked order message -->
+	<bean id="unpickedOrderMessageSchemaResource" class="java.lang.String">
+		<constructor-arg type="String" value="/xsd/WaitroseUnpickedOrderItemsOrderMessage.xsd" />
+	</bean>
+
+	<!-- Schema for the outgoing picked order message -->
+	<bean id="pickedOrderMessageSchemaResource" class="java.lang.String">
+		<constructor-arg type="String" value="/xsd/waitrosePickedOrderMessage.xsd" />
+	</bean>
+
+	<!-- Mail service -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+    	<property name="host" value="${wbp.smtp.host}"/>
+    	<property name="port" value="${wbp.smtp.port}"/>
+    	<property name="username" value="${wbp.smtp.username}"/>
+    	<property name="password" value="${wbp.smtp.password}"/>
+    	<property name="javaMailProperties">
+        	<props>
+            	<!-- Use SMTP-AUTH to authenticate to SMTP server -->
+            	<prop key="mail.smtp.auth">false</prop>
+            	<!-- Use TLS to encrypt communication with SMTP server -->
+            	<prop key="mail.smtp.starttls.enable">false</prop>
+        	</props>
+    	</property>
+	</bean>
+
+	<bean id="jmsTopicConnectionFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="jms/tcf/whatever" />
+		<property name="jndiTemplate">
+			<bean class="org.springframework.mock.jndi.ExpectedLookupTemplate">
+				<constructor-arg index="0" value="jms/tcf/whatever" />
+				<constructor-arg index="1" ref="pooledJmsConnectionFactory" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="cacheDestination" class="java.lang.String">
+		<constructor-arg type="String" value="jms/topic/MQT_WBP_CACHE_NOTIFICATION" />
+	</bean>
+
+	<bean id="userCredentialsTopicConnectionFactory" class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
+		<property name="targetConnectionFactory">
+			<ref bean="jmsTopicConnectionFactory" />
+		</property>
+		<property name="username" value=" " />
+		<property name="password" value=" " />
+	</bean>
+
+	<!-- Generic JMS Sender -->
+	<bean id="jmsTopicTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory">
+			<ref bean="userCredentialsTopicConnectionFactory" />
+		</property>
+		<property name="destinationResolver">
+			<ref bean="jmsJndiDestResolver" />
+		</property>
+		<property name="pubSubDomain" value="true" />
+	</bean>
+
+	<bean id="jmsTopicSender" class="com.waitrose.bps.jms.ofintegration.JmsTemplateProxy">
+		<property name="jmsTemplate">
+			<ref bean="jmsTopicTemplate" />
+		</property>
+	</bean>
+
+	<bean id="cacheFlushingMessageListener" class="com.waitrose.bps.jms.listener.cache.CacheFlushingMessageListener" />
+
+	<bean id="messageHeaderPropertyName" class="java.lang.String">
+		<constructor-arg type="String" value="wtrMessageType" />
+	</bean>
+
+</beans>
